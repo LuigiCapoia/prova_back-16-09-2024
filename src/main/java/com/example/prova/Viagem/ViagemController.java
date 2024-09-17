@@ -14,6 +14,9 @@ public class ViagemController {
     @Autowired
     private ViagemService viagemService;
 
+    @Autowired
+    private DestinoService destinoService;
+
     @GetMapping
     public List<Viagem> listarTodos() {
         return viagemService.listarTodos();
@@ -28,8 +31,18 @@ public class ViagemController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Viagem salvar(@RequestBody Viagem viagem) {
+        // Ensure the destination is properly saved or referenced
+        if (viagem.getDestino() != null && viagem.getDestino().getId() != null) {
+            Destino destino = destinoService.listarTodos()
+                    .stream()
+                    .filter(d -> d.getId().equals(viagem.getDestino().getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Destino não encontrado."));
+            viagem.setDestino(destino);
+        }
         return viagemService.salvar(viagem);
     }
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

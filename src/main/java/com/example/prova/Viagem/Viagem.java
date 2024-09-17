@@ -1,11 +1,9 @@
 package com.example.prova.Viagem;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+
 
 @Entity
 public class Viagem {
@@ -16,6 +14,10 @@ public class Viagem {
     private Date dataSaida;
     private Date dataChegada;
     private BigDecimal valor;
+
+    @ManyToOne
+    @JoinColumn(name = "destino_id")
+    private Destino destino;
 
 
     public Long getId() {
@@ -58,4 +60,11 @@ public class Viagem {
         this.dataChegada = dataChegada;
     }
 
+    public Destino getDestino() {
+        return destino;
+    }
+
+    public void setDestino(Destino destino) {
+        this.destino = destino;
+    }
 }
