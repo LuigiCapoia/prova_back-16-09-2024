@@ -1,1 +1,0 @@
-INSERT INTO viagem (nome, valor, dataSaida, dataChegada) VALUES ('viagem Parana', 7000.50, '2024-12-10', '2025-01-10');
